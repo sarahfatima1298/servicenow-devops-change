@@ -5916,9 +5916,9 @@ async function createChange({
             break;
         } catch (err) {
             console.log(`Sarah Error 130 ${JSON.stringify(err)}`);
-            console.log(`Sarah Error code 130 ${JSON.stringify(err.code)}`);
-            console.log(`Sarah Error message 130 ${JSON.stringify(err.message)}`);
-            console.log(`Sarah Error response 130 ${JSON.stringify(err.response)}`);
+            // console.log(`Sarah Error code 130 ${JSON.stringify(err.code)}`);
+            // console.log(`Sarah Error message 130 ${JSON.stringify(err.message)}`);
+            // console.log(`Sarah Error response 130 ${JSON.stringify(err.response)}`);
             if (err.code === 'ECONNABORTED') {
                 throw new Error(`change creation timeout after ${err.config.timeout}s`);
             }

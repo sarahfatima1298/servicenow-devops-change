@@ -1374,6 +1374,7 @@ class HttpClient {
                         return response;
                     }
                 }
+                console.log(`Sarah axios 1377 ${JSON.stringify(response)}`);
                 let redirectsRemaining = this._maxRedirects;
                 while (response.message.statusCode &&
                     HttpRedirectCodes.includes(response.message.statusCode) &&

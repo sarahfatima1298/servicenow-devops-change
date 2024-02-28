@@ -123,10 +123,11 @@ async function createChange({
             httpHeaders.timeout = changeCreationTimeOut;
             payload.retryattempts = attempts;
             response = await axios.post(postendpoint, JSON.stringify(payload), httpHeaders);
+            console.log(`Sarah Error ${JSON.stringify(response)}`);
             status = true;
             break;
         } catch (err) {
-            console.log(`Sarah Error ${err}`);
+            console.log(`Sarah Error ${JSON.stringify(err)}`);
             if (err.code === 'ECONNABORTED') {
                 throw new Error(`change creation timeout after ${err.config.timeout}s`);
             }

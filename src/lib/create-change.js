@@ -118,6 +118,7 @@ async function createChange({
     while (retry) {
         try {
             ++attempts;
+            console.log(`Sarah attempts ${attempts}`);
             retry = false;
             httpHeaders.timeout = changeCreationTimeOut;
             payload.retryattempts = attempts;
@@ -125,6 +126,7 @@ async function createChange({
             status = true;
             break;
         } catch (err) {
+            console.log(`Sarah Error ${err}`);
             if (err.code === 'ECONNABORTED') {
                 throw new Error(`change creation timeout after ${err.config.timeout}s`);
             }
@@ -150,37 +152,48 @@ async function createChange({
             }
 
             if (err.response.status == 400) {
+                console.log(`Sarah 155 if`);
                 let errMsg = 'ServiceNow DevOps Change is not created. Please check ServiceNow logs for more details.';
                 let responseData = err.response.data;
                 if (responseData && responseData.error && responseData.error.message) {
                     errMsg = responseData.error.message;
+                    console.log(`Sarah 159 if ${errMsg}`);
                 } else if (responseData && responseData.result) {
                     let result = responseData.result;
+                    console.log(`Sarah 163 else if ${result}`);
                     if (result.details && result.details.errors) {
                         errMsg = 'ServiceNow DevOps Change is not created. ';
+                        console.log(`Sarah 165 if ${errMsg}`);
                         let errors = err.response.data.result.details.errors;
                         for (var index in errors) {
                             errMsg = errMsg + errors[index].message;
                         }
+                        console.log(`Sarah 171 if ${errMsg}`);
                     }
                     else if (result.errorMessage) {
                         errMsg = result.errorMessage;
+                        console.log(`Sarah 175 if ${errMsg}`);
                     }
                 }
                 if (errMsg.indexOf('Waiting for Inbound Event') == -1) {
+                    console.log(`Sarah 179 if`);
                     retry = true;
                 } else if (attempts >= 3) {
                     retry = false;
+                    console.log(`Sarah 183 if`);
                 } else if (errMsg.indexOf('callbackURL') == -1) {
+                    console.log(`Sarah 185 if`);
                     throw new Error(errMsg);
                 }
                 if (!retry) {
+                    console.log(`Sarah 189 if`);
                     core.debug("[ServiceNow DevOps], Receiving response for Create Change, Response :" + circularSafeStringify(response) + "\n");
                 }
                 await new Promise((resolve) => setTimeout(resolve, 30000));
             }
         }
         if (status) {
+            console.log(`Sarah 196 if ${status}`);
             var result = response.data.result;
             if (result && result.message) {
                 console.log('\n     \x1b[1m\x1b[36m' + result.message + '\x1b[0m\x1b[0m');

@@ -40,6 +40,7 @@ async function createChange({
 
     try {
         githubContext = JSON.parse(githubContextStr);
+        console.log(`sarahTest message ${githubContextStr}`);
     } catch (e) {
         console.log(`Error occured with message ${e}`);
         throw new Error("Exception parsing github context");
